@@ -1,8 +1,7 @@
-﻿namespace Expressions.Task3.E3SQueryProvider.Models.Request.Enums
+﻿namespace Expressions.Task3.E3SQueryProvider.Models.Request.Enums;
+
+public enum SortOrder
 {
-    public enum SortOrder
-    {
-        Ascending = 1,
-        Descending = -1
-    }
+    Ascending = 1,
+    Descending = -1
 }

@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
-namespace Expressions.Task3.E3SQueryProvider.Models.Request
+namespace Expressions.Task3.E3SQueryProvider.Models.Request;
+
+[JsonObject]
+public class Statement
 {
-    [JsonObject]
-    public class Statement
-    {
-        [JsonProperty("query")]
-        public string Query { get; set; }
-    }
+    [JsonProperty("query")]
+    public string Query { get; set; }
 }
