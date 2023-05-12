@@ -24,16 +24,16 @@ public class E3SSearchService : IE3SSearchService
     {
         var requestGenerator = new FtsRequestGenerator(_baseAddress);
 
-        Uri request = requestGenerator.GenerateRequestUrl<T>(query, start, limit);
+        var request = requestGenerator.GenerateRequestUrl<T>(query, start, limit);
 
-        string resultString = _httpClient.GetStringAsync(request).Result;
+        var resultString = _httpClient.GetStringAsync(request).Result;
 
         return JsonConvert.DeserializeObject<FtsResponse<T>>(resultString).Items.Select(t => t.Data);
     }
         
     public IEnumerable SearchFts(Type type, string query, int start = 0, int limit = 0)
     {
-        Type finalType = typeof(FtsResponse<>).MakeGenericType(type);
+        var finalType = typeof(FtsResponse<>).MakeGenericType(type);
         if (finalType == null)
         {
             throw new ArgumentNullException(nameof(finalType));
@@ -45,15 +45,15 @@ public class E3SSearchService : IE3SSearchService
         }
 
         var requestGenerator = new FtsRequestGenerator(_baseAddress);
-        Uri request = requestGenerator.GenerateRequestUrl(type, query, start, limit);
+        var request = requestGenerator.GenerateRequestUrl(type, query, start, limit);
 
-        string resultString = _httpClient.GetStringAsync(request).Result;
+        var resultString = _httpClient.GetStringAsync(request).Result;
 
-        object result = JsonConvert.DeserializeObject(resultString, finalType);
+        var result = JsonConvert.DeserializeObject(resultString, finalType);
 
         var list = Activator.CreateInstance(typeof(List<>).MakeGenericType(type)) as IList;
             
-        foreach (object item in (IEnumerable)items.GetValue(result))
+        foreach (var item in (IEnumerable)items.GetValue(result))
         {
             var data = item.GetType().GetProperty("data");
             if (data == null)

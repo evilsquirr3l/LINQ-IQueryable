@@ -24,7 +24,7 @@ public class FtsRequestGenerator
 
     public Uri GenerateRequestUrl(Type type, string query = "*", int start = 0, int limit = 10)
     {
-        string metaTypeName = GetMetaTypeName(type);
+        var metaTypeName = GetMetaTypeName(type);
 
         var ftsQueryRequest = new FtsQueryRequest
         {

@@ -29,7 +29,7 @@ public class E3SProviderTests
 
     private static readonly Lazy<E3SSearchService> searchService = new Lazy<E3SSearchService>(() =>
     {
-        HttpClient httpClient = HttpClientHelper.CreateClient(User, Password);
+        var httpClient = HttpClientHelper.CreateClient(User, Password);
         return new E3SSearchService(httpClient, BaseUrl);
     });
 
@@ -41,7 +41,7 @@ public class E3SProviderTests
     [Fact(Skip = "This test is provided to show the general idea of usage.")]
     public void WithoutProvider()
     {
-        IEnumerable<EmployeeEntity> res = searchService.Value.SearchFts<EmployeeEntity>("workstation:(EPRUIZHW0249)", 0, 1);
+        var res = searchService.Value.SearchFts<EmployeeEntity>("workstation:(EPRUIZHW0249)", 0, 1);
 
         foreach (var emp in res)
         {

@@ -32,10 +32,10 @@ public class E3SLinqProvider : IQueryProvider
 
     public TResult Execute<TResult>(Expression expression)
     {
-        Type itemType = TypeHelper.GetElementType(expression.Type);
+        var itemType = TypeHelper.GetElementType(expression.Type);
 
         var translator = new ExpressionToFtsRequestTranslator();
-        string queryString = translator.Translate(expression);
+        var queryString = translator.Translate(expression);
 
         return (TResult)_e3SClient.SearchFts(itemType, queryString);
     }

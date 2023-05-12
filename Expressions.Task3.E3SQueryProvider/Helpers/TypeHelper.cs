@@ -7,7 +7,7 @@ internal static class TypeHelper
 {
     internal static Type GetElementType(Type seqType)
     {
-        Type iEnum = FindIEnumerable(seqType);
+        var iEnum = FindIEnumerable(seqType);
         if (iEnum == null)
             return seqType;
 
@@ -25,21 +25,21 @@ internal static class TypeHelper
 
         if (seqType.IsGenericType)
         {
-            foreach (Type arg in seqType.GetGenericArguments())
+            foreach (var arg in seqType.GetGenericArguments())
             {
-                Type iEnum = typeof(IEnumerable<>).MakeGenericType(arg);
+                var iEnum = typeof(IEnumerable<>).MakeGenericType(arg);
                 if (iEnum.IsAssignableFrom(seqType))
                     return iEnum;
             }
         }
 
-        Type[] iFaces = seqType.GetInterfaces();
+        var iFaces = seqType.GetInterfaces();
 
         if (iFaces.Length > 0)
         {
-            foreach (Type iFace in iFaces)
+            foreach (var iFace in iFaces)
             {
-                Type iEnum = FindIEnumerable(iFace);
+                var iEnum = FindIEnumerable(iFace);
                 if (iEnum != null)
                     return iEnum;
             }
