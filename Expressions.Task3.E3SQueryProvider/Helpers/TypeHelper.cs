@@ -9,7 +9,9 @@ internal static class TypeHelper
     {
         var iEnum = FindIEnumerable(seqType);
         if (iEnum == null)
+        {
             return seqType;
+        }
 
         return iEnum.GetGenericArguments()[0];
 
@@ -18,10 +20,14 @@ internal static class TypeHelper
     private static Type FindIEnumerable(Type seqType)
     {
         if (seqType == null || seqType == typeof(string))
+        {
             return null;
+        }
 
         if (seqType.IsArray)
+        {
             return typeof(IEnumerable<>).MakeGenericType(seqType.GetElementType());
+        }
 
         if (seqType.IsGenericType)
         {
@@ -29,7 +35,9 @@ internal static class TypeHelper
             {
                 var iEnum = typeof(IEnumerable<>).MakeGenericType(arg);
                 if (iEnum.IsAssignableFrom(seqType))
+                {
                     return iEnum;
+                }
             }
         }
 
@@ -41,7 +49,9 @@ internal static class TypeHelper
             {
                 var iEnum = FindIEnumerable(iFace);
                 if (iEnum != null)
+                {
                     return iEnum;
+                }
             }
 
         }
