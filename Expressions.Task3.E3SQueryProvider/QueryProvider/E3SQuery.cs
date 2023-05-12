@@ -16,17 +16,11 @@ public class E3SQuery<T> : IQueryable<T>
         _provider = provider;
     }
 
-    #region public properties
-
     public Type ElementType => typeof(T);
 
     public Expression Expression { get; }
 
     public IQueryProvider Provider => _provider;
-
-    #endregion
-
-    #region public methods
 
     public IEnumerator<T> GetEnumerator()
     {
@@ -37,6 +31,4 @@ public class E3SQuery<T> : IQueryable<T>
     {
         return _provider.Execute<IEnumerable>(Expression).GetEnumerator();
     }
-
-    #endregion
 }

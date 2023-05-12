@@ -11,20 +11,14 @@ namespace Expressions.Task3.E3SQueryProvider.Services;
 
 public class E3SSearchService : IE3SSearchService
 {
-    #region private readonly fields
-
     private readonly string _baseAddress;
     private readonly HttpClient _httpClient;
-        
-    #endregion
 
     public E3SSearchService(HttpClient httpClient, string baseAddress)
     {
         _baseAddress = baseAddress ?? throw new ArgumentNullException(nameof(baseAddress));
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
-
-    #region public methods
 
     public IEnumerable<T> SearchFts<T>(string query, int start = 0, int limit = 0) where T : BaseE3SEntity
     {
@@ -72,6 +66,4 @@ public class E3SSearchService : IE3SSearchService
 
         return list;
     }
-
-    #endregion
 }

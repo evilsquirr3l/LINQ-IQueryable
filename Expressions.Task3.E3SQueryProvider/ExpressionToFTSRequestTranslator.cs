@@ -21,8 +21,6 @@ public class ExpressionToFtsRequestTranslator : ExpressionVisitor
         return _resultStringBuilder.ToString();
     }
 
-    #region protected methods
-
     protected override Expression VisitMethodCall(MethodCallExpression node)
     {
         if (node.Method.DeclaringType == typeof(Queryable)
@@ -73,6 +71,4 @@ public class ExpressionToFtsRequestTranslator : ExpressionVisitor
 
         return node;
     }
-
-    #endregion
 }

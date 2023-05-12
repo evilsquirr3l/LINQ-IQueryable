@@ -17,8 +17,6 @@ namespace Expressions.Task3.E3SQueryProvider.Test;
 
 public class E3SAndOperatorSupportTests
 {
-    #region SubTask 3: AND operator support
-
     [Fact]
     public void TestAndQueryable()
     {
@@ -37,6 +35,4 @@ public class E3SAndOperatorSupportTests
         // todo: create asserts for this test by yourself, because they will depend on your final implementation
         throw new NotImplementedException("Please implement this test and the appropriate functionality");
     }
-
-    #endregion
 }

@@ -12,16 +12,10 @@ public class FtsRequestGenerator
     private readonly string _FTSSearchTemplate = @"/searchFts";
     private readonly string _baseAddress;
 
-    #region Constructors
-        
     public FtsRequestGenerator(string baseAddress)
     {
         _baseAddress = baseAddress;
     }
-
-    #endregion
-
-    #region public methods
 
     public Uri GenerateRequestUrl<T>(string query = "*", int start = 0, int limit = 10)
     {
@@ -55,8 +49,6 @@ public class FtsRequestGenerator
 
         return uri;
     }
-
-    #endregion
 
     private static Uri BindByName(string baseAddress, Dictionary<string, string> queryParams)
         => new Uri(QueryHelpers.AddQueryString(baseAddress, queryParams));

@@ -24,17 +24,11 @@ public class E3SEntitySet<T> : IQueryable<T> where T : BaseE3SEntity
         QueryProvider = new E3SLinqProvider(client);
     }
 
-    #region public properties
-
     public Type ElementType => typeof(T);
 
     public Expression Expression => Expr;
 
     public IQueryProvider Provider => QueryProvider;
-
-    #endregion
-
-    #region public methods
 
     public IEnumerator<T> GetEnumerator()
     {
@@ -45,6 +39,4 @@ public class E3SEntitySet<T> : IQueryable<T> where T : BaseE3SEntity
     {
         return QueryProvider.Execute<IEnumerable>(Expr).GetEnumerator();
     }
-
-    #endregion
 }

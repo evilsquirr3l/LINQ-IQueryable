@@ -17,8 +17,6 @@ namespace Expressions.Task3.E3SQueryProvider.Test.Ignored;
 /// </summary>
 public class E3SProviderTests
 {
-    #region private 
-
     private readonly ITestOutputHelper _testOutputHelper;
 
     private static IConfigurationRoot config = new ConfigurationBuilder()
@@ -35,14 +33,10 @@ public class E3SProviderTests
         return new E3SSearchService(httpClient, BaseUrl);
     });
 
-    #endregion
-
     public E3SProviderTests(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
     }
-
-    #region public tests
 
     [Fact(Skip = "This test is provided to show the general idea of usage.")]
     public void WithoutProvider()
@@ -76,6 +70,4 @@ public class E3SProviderTests
             _testOutputHelper.WriteLine("{0} {1}", emp.NativeName, emp.StartWorkDate);
         }
     }
-
-    #endregion
 }

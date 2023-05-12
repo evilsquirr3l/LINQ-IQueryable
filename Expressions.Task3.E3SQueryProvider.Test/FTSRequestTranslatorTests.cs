@@ -8,8 +8,6 @@ namespace Expressions.Task3.E3SQueryProvider.Test;
 
 public class FtsRequestTranslatorTests
 {
-    #region SubTask 1 : operands order
-
     [Fact]
     public void TestBinaryBackOrder()
     {
@@ -20,10 +18,6 @@ public class FtsRequestTranslatorTests
         string translated = translator.Translate(expression);
         Assert.Equal("Workstation:(EPRUIZHW006)", translated);
     }
-
-    #endregion
-
-    #region SubTask 2: inclusion operations
 
     [Fact]
     public void TestBinaryEqualsQueryable()
@@ -90,6 +84,4 @@ public class FtsRequestTranslatorTests
         string translated = translator.Translate(expression);
         Assert.Equal("Workstation:(*IZHW006*)", translated);
     }
-
-    #endregion
 }
