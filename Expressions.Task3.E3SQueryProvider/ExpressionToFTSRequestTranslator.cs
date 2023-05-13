@@ -7,7 +7,7 @@ namespace Expressions.Task3.E3SQueryProvider;
 
 public class ExpressionToFtsRequestTranslator : ExpressionVisitor
 {
-    readonly StringBuilder _resultStringBuilder;
+    private readonly StringBuilder _resultStringBuilder;
 
     public ExpressionToFtsRequestTranslator()
     {
@@ -39,16 +39,18 @@ public class ExpressionToFtsRequestTranslator : ExpressionVisitor
         switch (node.NodeType)
         {
             case ExpressionType.Equal:
-                if (node.Left.NodeType != ExpressionType.MemberAccess)
-                    throw new NotSupportedException($"Left operand should be property or field: {node.NodeType}");
+                switch (node.Left.NodeType)
+                {
+                    case ExpressionType.MemberAccess when node.Right.NodeType == ExpressionType.Constant:
+                        VisitMemberAndConstant(node.Left, node.Right);
+                        break;
+                    case ExpressionType.Constant when node.Right.NodeType == ExpressionType.MemberAccess:
+                        VisitMemberAndConstant(node.Right, node.Left);
+                        break;
+                    default:
+                        throw new NotSupportedException($"Unsupported operands detected: Left: {node.Left.NodeType}, Right: {node.Right.NodeType}");
+                }
 
-                if (node.Right.NodeType != ExpressionType.Constant)
-                    throw new NotSupportedException($"Right operand should be constant: {node.NodeType}");
-
-                Visit(node.Left);
-                _resultStringBuilder.Append("(");
-                Visit(node.Right);
-                _resultStringBuilder.Append(")");
                 break;
 
             default:
@@ -56,6 +58,14 @@ public class ExpressionToFtsRequestTranslator : ExpressionVisitor
         };
 
         return node;
+    }
+
+    private void VisitMemberAndConstant(Expression memberExpression, Expression constantExpression)
+    {
+        Visit(memberExpression);
+        _resultStringBuilder.Append("(");
+        Visit(constantExpression);
+        _resultStringBuilder.Append(")");
     }
 
     protected override Expression VisitMember(MemberExpression node)
