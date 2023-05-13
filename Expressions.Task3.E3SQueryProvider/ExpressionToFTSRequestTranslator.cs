@@ -23,15 +23,43 @@ public class ExpressionToFtsRequestTranslator : ExpressionVisitor
 
     protected override Expression VisitMethodCall(MethodCallExpression node)
     {
-        if (node.Method.DeclaringType == typeof(Queryable)
-            && node.Method.Name == "Where")
+        if (node.Method.DeclaringType == typeof(Queryable) && node.Method.Name == "Where")
         {
             var predicate = node.Arguments[1];
             Visit(predicate);
-
-            return node;
         }
-        return base.VisitMethodCall(node);
+        else if (node.Method.DeclaringType == typeof(string))
+        {
+            switch (node.Method.Name)
+            {
+                case "StartsWith":
+                    Visit(node.Object);
+                    _resultStringBuilder.Append("(");
+                    Visit(node.Arguments[0]);
+                    _resultStringBuilder.Append("*)");
+                    break;
+                case "EndsWith":
+                    Visit(node.Object);
+                    _resultStringBuilder.Append("(*");
+                    Visit(node.Arguments[0]);
+                    _resultStringBuilder.Append(")");
+                    break;
+                case "Contains":
+                    Visit(node.Object);
+                    _resultStringBuilder.Append("(*");
+                    Visit(node.Arguments[0]);
+                    _resultStringBuilder.Append("*)");
+                    break;
+                default:
+                    throw new NotSupportedException($"Operation '{node.Method.Name}' is not supported");
+            }
+        }
+        else
+        {
+            return base.VisitMethodCall(node);
+        }
+
+        return node;
     }
 
     protected override Expression VisitBinary(BinaryExpression node)
