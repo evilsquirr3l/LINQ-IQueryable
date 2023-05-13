@@ -50,6 +50,12 @@ public class ExpressionToFtsRequestTranslator : ExpressionVisitor
                     Visit(node.Arguments[0]);
                     _resultStringBuilder.Append("*)");
                     break;
+                case "Equals":
+                    Visit(node.Object);
+                    _resultStringBuilder.Append("(");
+                    Visit(node.Arguments[0]);
+                    _resultStringBuilder.Append(")");
+                    break;
                 default:
                     throw new NotSupportedException($"Operation '{node.Method.Name}' is not supported");
             }
