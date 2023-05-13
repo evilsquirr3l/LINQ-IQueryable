@@ -8,6 +8,7 @@ namespace Expressions.Task3.E3SQueryProvider;
 public class ExpressionToFtsRequestTranslator : ExpressionVisitor
 {
     private readonly StringBuilder _resultStringBuilder;
+    private int _recursiveAndCounter;
 
     public ExpressionToFtsRequestTranslator()
     {
@@ -82,14 +83,34 @@ public class ExpressionToFtsRequestTranslator : ExpressionVisitor
                         VisitMemberAndConstant(node.Right, node.Left);
                         break;
                     default:
-                        throw new NotSupportedException($"Unsupported operands detected: Left: {node.Left.NodeType}, Right: {node.Right.NodeType}");
+                        throw new NotSupportedException(
+                            $"Unsupported operands detected: Left: {node.Left.NodeType}, Right: {node.Right.NodeType}");
+                }
+
+                break;
+
+            case ExpressionType.AndAlso:
+                if (_recursiveAndCounter == 0)
+                {
+                    _resultStringBuilder.Append("\"statements\": [ { \"query\":\"");
+                }
+
+                _recursiveAndCounter += 1;
+                Visit(node.Left);
+                _resultStringBuilder.Append("\" }, { \"query\":\"");
+                Visit(node.Right);
+
+                _recursiveAndCounter -= 1;
+                if (_recursiveAndCounter == 0)
+                {
+                    _resultStringBuilder.Append("\" } ]");
                 }
 
                 break;
 
             default:
                 throw new NotSupportedException($"Operation '{node.NodeType}' is not supported");
-        };
+        }
 
         return node;
     }

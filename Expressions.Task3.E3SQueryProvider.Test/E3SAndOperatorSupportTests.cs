@@ -32,7 +32,8 @@ public class E3SAndOperatorSupportTests
           ],
          */
 
-        // todo: create asserts for this test by yourself, because they will depend on your final implementation
-        throw new NotImplementedException("Please implement this test and the appropriate functionality");
+        var expectedResult = "\"statements\": [ { \"query\":\"Workstation:(EPRUIZHW006)\" }, { \"query\":\"Manager:(John*)\" } ]";
+        var translated = translator.Translate(expression);
+        Assert.Equal(expectedResult, translated);
     }
 }
